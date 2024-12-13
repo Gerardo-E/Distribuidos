@@ -46,6 +46,17 @@ document.getElementById("formBusqueda").addEventListener("submit", async (event)
 
 async function comprar(idArticulo) {
     const cantidad = parseInt(document.getElementById(`cantidad-${idArticulo}`).value);
-    const response = await comprarArticulo({ id_articulo: idArticulo, cantidad });
-    alert(response.message);
+    if (isNaN(cantidad) || cantidad <= 0) {
+        alert("La cantidad debe ser un número positivo.");
+        return;
+    }
+
+    const response = await comprarArticulo({ idArticulo, cantidad });
+    if (response.message) {
+        alert(response.message);
+    } else {
+        console.error("Error en la respuesta del servidor:", response);
+        alert("Ocurrió un error al procesar la compra.");
+    }
 }
+
