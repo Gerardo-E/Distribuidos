@@ -6,6 +6,11 @@ async function cargarCarrito() {
         const response = await fetch(`${baseUrl}/VerCarrito`, {
             method: "GET",
         });
+
+        if (!response.ok) {
+            throw new Error("Error al cargar el carrito.");
+        }
+
         const carrito = await response.json();
 
         if (carrito.length === 0) {
@@ -53,28 +58,40 @@ async function cargarCarrito() {
 async function eliminarArticulo(idArticulo) {
     try {
         const response = await fetch(`${baseUrl}/EliminarArticuloCarrito`, {
-            method: "POST",
+            method: "DELETE", // Cambiado a DELETE
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id_articulo: idArticulo }),
+            body: JSON.stringify({ idArticulo }), // Se corrigió a idArticulo
         });
+
+        if (!response.ok) {
+            throw new Error("Error al eliminar el artículo.");
+        }
+
         const result = await response.json();
         alert(result.message);
         cargarCarrito();
     } catch (error) {
         console.error("Error al eliminar el artículo:", error);
+        alert("No se pudo eliminar el artículo. Intenta nuevamente.");
     }
 }
 
 document.getElementById("vaciarCarrito").addEventListener("click", async () => {
     try {
         const response = await fetch(`${baseUrl}/EliminarCarrito`, {
-            method: "POST",
+            method: "DELETE", // Cambiado a DELETE
         });
+
+        if (!response.ok) {
+            throw new Error("Error al vaciar el carrito.");
+        }
+
         const result = await response.json();
         alert(result.message);
         cargarCarrito();
     } catch (error) {
         console.error("Error al vaciar el carrito:", error);
+        alert("No se pudo vaciar el carrito. Intenta nuevamente.");
     }
 });
 
