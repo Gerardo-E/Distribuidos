@@ -1,4 +1,4 @@
-const baseUrl = "t8-2021630254-a.azurewebsites.net/api";
+const baseUrl = "https://t8-2021630254-a.azurewebsites.net/api";
 
 async function agregarArticulo(data) {
     const response = await fetch(`${baseUrl}/AgregarArticulo`, {
